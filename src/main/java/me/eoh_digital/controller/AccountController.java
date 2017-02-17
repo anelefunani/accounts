@@ -5,6 +5,7 @@ import me.eoh_digital.model.ItemisedEntity;
 import me.eoh_digital.service.AccountInformationService;
 import me.eoh_digital.service.AccountService;
 import me.eoh_digital.service.ItemisedBillService;
+import me.eoh_digital.service.SearchAuditService;
 import me.eoh_digital.views.AccountInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,8 @@ public class AccountController {
     private AccountInformationService accountInformationService;
     @Autowired
     private ItemisedBillService itemisedBillService;
+    @Autowired
+    private SearchAuditService searchAuditService;
 
     @RequestMapping(value = {"/", "/accounts"}, method = RequestMethod.GET)
     public String accounts(Model model){
@@ -44,11 +48,15 @@ public class AccountController {
         AccountEntity results = (AccountEntity) result.getModel().get("account");
         results = accountService.findByAccountNumber(results.getAccountNumber());
         System.out.println(results);
-        AccountInformation accountInformation = accountInformationService.findByAccountNumber(results.getAccountNumber());
-        if(accountInformation != null)
-            model.addAttribute("accountInformation", accountInformation);
+        if(results != null){
+            AccountInformation accountInformation = accountInformationService.findByAccountNumber(results.getAccountNumber());
+            if(accountInformation != null){
+                model.addAttribute("accountInformation", accountInformation);
+                searchAuditService.recordAccountSearch(LocalDateTime.now(), accountInformation.getAccountNumber(), "guest");
+            }
+        }
         else
-            return "accountNotFound";
+            return "notFoundPage";
 
         return "accountDetails";
     }
