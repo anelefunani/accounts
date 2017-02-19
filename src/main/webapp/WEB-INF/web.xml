@@ -20,5 +20,17 @@
         <servlet-name>assessment</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.woff</url-pattern>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.ico</url-pattern>
+        <url-pattern>*.psd</url-pattern>
+    </servlet-mapping>
+    <!--<mime-mapping>-->
+        <!--<extension>".woff"</extension>-->
+        <!--<mime-type>"application/x-font-woff"</mime-type>-->
+    <!--</mime-mapping>-->
 </web-app>

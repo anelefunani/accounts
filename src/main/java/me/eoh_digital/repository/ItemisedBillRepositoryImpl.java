@@ -20,6 +20,7 @@ public class ItemisedBillRepositoryImpl implements ItemisedBillRepository {
 
     @Override
     public List<ItemisedEntity> findAllByInvoiceId(Integer id) {
-        return sessionFactory.getCurrentSession().createQuery("FROM ItemisedEntity billItems WHERE billItems.invoiceByInvoiceId.invoiceId = 1").list();
+        String sql = String.format("FROM ItemisedEntity billItems WHERE billItems.invoiceByInvoiceId.invoiceId = '%d'", id);
+        return sessionFactory.getCurrentSession().createQuery(sql).list();
     }
 }

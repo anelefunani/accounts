@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 2017/02/14
-  Time: 11:19 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -13,14 +6,9 @@
     <head>
         <title>Account Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
-        <%--<link href="<c:url value="/resources/css/bootstrap.css" />" rel="stylesheet">--%>
-        <%--<script src="<c:url value="/resources/lib/jquery-3.1.1.js" />"></script>--%>
-        <%--<script src="<c:url value="/resources/lib/bootstrap.js" />"></script>--%>
+        <link href="/resources/imports.jsp" rel="import">
     </head>
-    <body>
+    <body class="body">
     <div class="container">
         <h1>Account Information</h1>
             <table class="table table-striped table-bordered table-condensed table-hover">

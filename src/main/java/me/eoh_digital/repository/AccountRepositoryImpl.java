@@ -20,7 +20,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @SuppressWarnings("unchecked")
     public List<AccountEntity> findAll(){
-        return sessionFactory.getCurrentSession().createQuery("FROM AccountEntity ").list();
+        String sql = String.format("FROM AccountEntity");
+        return sessionFactory.getCurrentSession().createQuery(sql).list();
     }
 
     public AccountEntity findByKey(Integer id){

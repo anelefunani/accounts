@@ -31,6 +31,5 @@ public class SearchAuditRepositoryImpl implements SearchAuditRepository {
         query.setParameter("accountViewed", accountNumber);
         query.setParameter("username", username);
         query.executeUpdate();
-        System.out.println("Audit table updated");
     }
 }

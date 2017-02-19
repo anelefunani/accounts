@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Admin on 2017/02/14.
@@ -36,23 +34,18 @@ public class AccountController {
     private SearchAuditService searchAuditService;
 
     @RequestMapping(value = {"/", "/accounts"}, method = RequestMethod.GET)
-    public String accounts(Model model){
-        String str = "Some additional data.";
-        List<AccountEntity> accounts = accountService.findAll();
-        model.addAttribute("data", accounts);
+    public String accounts(){
         return "accountSearch";
     }
 
     @RequestMapping(value = "/accountSearch", method = RequestMethod.POST)
     public String accountSearch(@ModelAttribute("account") AccountEntity account, BindingResult result,  Model model){
-        AccountEntity results = (AccountEntity) result.getModel().get("account");
-        results = accountService.findByAccountNumber(results.getAccountNumber());
-        System.out.println(results);
-        if(results != null){
-            AccountInformation accountInformation = accountInformationService.findByAccountNumber(results.getAccountNumber());
-            if(accountInformation != null){
-                model.addAttribute("accountInformation", accountInformation);
-                searchAuditService.recordAccountSearch(LocalDateTime.now(), accountInformation.getAccountNumber(), "guest");
+        AccountEntity accountSearch = accountService.findByAccountNumber(((AccountEntity)result.getModel().get("account")).getAccountNumber());
+        if(accountSearch != null){
+            AccountInformation accountSearchInformation = accountInformationService.findByAccountNumber(accountSearch.getAccountNumber());
+            if(accountSearchInformation != null){
+                model.addAttribute("accountInformation", accountSearchInformation);
+                searchAuditService.recordAccountSearch(LocalDateTime.now(), accountSearchInformation.getAccountNumber(), "guest");
             }
         }
         else
@@ -61,15 +54,8 @@ public class AccountController {
         return "accountDetails";
     }
 
-    @RequestMapping(value = "/details", method = RequestMethod.GET)
-    public String details(Model model){
-        model.addAttribute("accountDetails", "accountDetails");
-        return "accountDetails";
-    }
-
     @RequestMapping(value = "/billItems", method = RequestMethod.POST)
-    public String bilItems(@ModelAttribute("invoiceId") String invoiceId, BindingResult result,  Model model){
-        System.out.println(result.getModel().get("invoiceId"));
+    public String billItems(@ModelAttribute("invoiceId") String invoiceId, BindingResult result,  Model model){
         List<ItemisedEntity> billItems = itemisedBillService.findAllByInvoiceId(Integer.valueOf((String)result.getModel().get("invoiceId")));
         model.addAttribute("billItems", billItems);
         return "billItems";
